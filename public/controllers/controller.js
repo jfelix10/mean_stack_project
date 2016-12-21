@@ -1,34 +1,27 @@
 // como se fosse uma classe de linguagem backend chamada AppController
 
 // "use strict";
-angular.module("app", []).controller('AppCtrl', function($scope, $http) 
+angular.module("app", [])
+// .service('myService', function () {})
+.controller('AppCtrl', function($scope, $http) 
 {
-	// rota de lista de contatos que aciona função callback no server.js (node)
-	$http.get('/listacontatos')
+	// rota que aciona função callback no server.js (node) linkado pela url e recebe um resultado
+	// $http.get('/listacontatos').success(function(resp){
+	// 	$scope.listaContatos = resp;
+	// })
 
-	// criando a lista de contatos
-	var contato1 = 
+	$http
+	({
+	  method: 'GET',
+	  url: '/listacontatos'
+	})
+	.then(function successCallback(resp) 
 	{
-		nome: "jonas",
-		email: "jonas@jonas.com",
-		fone: "11 911112233"
-	};
-
-	var contato2 = 
+		console.log(resp.data);
+	    $scope.listaContatos = resp.data;
+	}, 
+	function errorCallback(resp) 
 	{
-		nome: "johan",
-		email: "johan@johan.com",
-		fone: "11 933338844"
-	};
-
-	var contato3 = 
-	{
-		nome: "joshua",
-		email: "joshua@joshua.com",
-		fone: "11 977778844"
-	};
-
-	// compactando a lista de contatos
-	var listaContatos = [contato1, contato2, contato3];
-	$scope.listaContatos = listaContatos;
+	    alert('azedo o pé do frango');
+	});
 });
