@@ -29,6 +29,7 @@ angular.module("app", [])
 	// chamando a função refresh que traz a lista de contatos atualizada
 	refresh();
 
+	// função que adiciona contatos
 	$scope.addContato = function()
 	{
 		console.log($scope.contato);
@@ -50,5 +51,71 @@ angular.module("app", [])
 		{
 		    alert('deu ruim no insert!!');
 		});
+	};
+
+	// função que remove contatos
+	$scope.remover = function(id)
+	{
+		console.log(id);
+		$http
+		({
+		  method: 'DELETE',
+		  url: '/listacontatos/' + id
+		})
+		.then(function successCallback(resp) 
+		{
+			refresh();
+		}, 
+		function errorCallback(resp) 
+		{
+		    alert('ai lasco tudo!!');
+		});
+	};
+
+	// função que seleciona os contatos para editar
+	$scope.editar = function(id)
+	{
+		console.log(id);
+		$http
+		({
+		  method: 'GET',
+		  url: '/listacontatos/' + id
+		})
+		.then(function successCallback(resp) 
+		{
+			$scope.contato = resp.data;
+		}, 
+		function errorCallback(resp) 
+		{
+		    alert('tendi nada agora...');
+		});
+	};
+
+	// função que edita os contatos selecionados
+	$scope.alterar = function(id)
+	{
+		console.log($scope.contato._id);
+		$http
+		({
+		  method: 'PUT',
+		  url: '/listacontatos/' + $scope.contato._id,
+		  data: $scope.contato
+		})
+		.then(function successCallback(resp) 
+		{
+			refresh();
+			// limpando os dados dos campos de inserção no sucesso da resposta
+			$scope.contato = "";
+		}, 
+		function errorCallback(resp) 
+		{
+		    alert('vigimaria!!!');
+		});
+	};
+
+	// função limpeza dos campos
+	$scope.limpar = function()
+	{
+		$scope.contato = "";
 	};
 });

@@ -39,6 +39,38 @@ app.post('/listacontatos', function(req, res)
 	});
 });
 
+// recebendo post da controller para deletar
+app.delete('/listacontatos/:id', function(req, res)
+{
+	var id = req.params.id;
+	console.log(id);
+	db.db_lista_contatos.remove({_id: mongojs.ObjectId(id)}, function(err, docs){
+		res.json(docs);
+	});
+});
+
+// recebendo post da controller para selecionar contato para edição
+app.get('/listacontatos/:id', function(req, res)
+{
+	var id = req.params.id;
+	console.log(id);
+	db.db_lista_contatos.findOne({$or:[{_id: mongojs.ObjectId(id)}]}, function(err, docs){
+		res.json(docs);
+	});
+});
+
+// recebendo post da controller para editar
+app.put('/listacontatos/:id', function(req, res)
+{
+	var id = req.params.id;
+	console.log('id: '+id + ' nome: ' + req.body.nome);
+	db.db_lista_contatos.findAndModify({query: {_id: mongojs.ObjectId(id)},
+		update: {$set: {nome: req.body.nome, email: req.body.email, fone: req.body.fone}},
+		new: true}, function(err, docs){
+			res.json(docs);
+	});
+});
+
 
 // porta do servidor que vai subir a aplicação
 app.listen(3000)
