@@ -18,9 +18,24 @@
 				<th>nome</th>
 				<th>email</th>
 				<th>telefone</th>
+				<th>ações</th>
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<td>
+					<input type="text" class="form-control" ng-model="contato.nome">
+				</td>
+				<td>
+					<input type="text" class="form-control" ng-model="contato.email">
+				</td>
+				<td>
+					<input type="text" class="form-control" ng-model="contato.fone">
+				</td>
+				<td>
+					<button class="btn btn-primary" ng-click="addContato()"> adicionar </button>
+				</td>
+			</tr>
 			<tr ng-repeat="contato in listaContatos">
 				<td>{{contato.nome}}</td>
 				<td>{{contato.email}}</td>
